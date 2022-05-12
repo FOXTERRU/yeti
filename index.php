@@ -20,6 +20,28 @@ $arraygoods = [
                 ["Title"=>"Куртка для сноуборда DC Mutiny Charocal","Category"=>$arraycategory[3]["Category"],"Price"=>"7500","Image URL"=>"img/lot-5.jpg"],
                 ["Title"=>"Маска Oakley Canopy","Category"=>$arraycategory[5]["Category"],"Price"=>"5400","Image URL"=>"img/lot-6.jpg"],
               ];
+
+function sub_format ($number)
+{
+    $number = ceil($number);
+    if($number<1000)
+    {
+        $result = $number;
+    }
+    else
+    {
+        $result = number_format($number,0,","," ");
+    }
+    return $result.'<b class="rub">p</b>';
+}
+
+function timer()
+{
+    $now = new DateTime('now');
+    $nextdaynight = new DateTime('24:00');
+    $interval = $now->diff($nextdaynight);
+    return $interval->format('%h:%i');
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -112,10 +134,10 @@ $arraygoods = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$goods["Price"]?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=sub_format($goods["Price"])?></span>
                         </div>
                         <div class="lot__timer timer">
-                            12:23
+                            <?=timer()?>
                         </div>
                     </div>
                 </div>
