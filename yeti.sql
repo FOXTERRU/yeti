@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 13 2022 г., 11:27
+-- Время создания: Май 16 2022 г., 11:07
 -- Версия сервера: 5.7.33-log
 -- Версия PHP: 7.1.33
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bet` (
   `id_bet` int(11) NOT NULL,
+  `id_lot` int(11) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `sum` int(11) NOT NULL
@@ -58,10 +59,10 @@ CREATE TABLE `lot` (
   `id_category` int(11) NOT NULL,
   `creation_date` datetime NOT NULL,
   `name` varchar(250) NOT NULL,
-  `description` varchar(250) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   `image` varchar(250) NOT NULL,
   `initial_price` int(11) NOT NULL,
-  `completion_date` datetime NOT NULL,
+  `completion_date` datetime DEFAULT NULL,
   `bid_step` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -90,7 +91,8 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `bet`
   ADD PRIMARY KEY (`id_bet`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_lot` (`id_lot`);
 
 --
 -- Индексы таблицы `category`
@@ -121,19 +123,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `bet`
 --
 ALTER TABLE `bet`
-  MODIFY `id_bet` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_bet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `lot`
+--
+ALTER TABLE `lot`
+  MODIFY `id_lot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -143,7 +151,8 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `bet`
 --
 ALTER TABLE `bet`
-  ADD CONSTRAINT `bet_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `bet_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bet_ibfk_2` FOREIGN KEY (`id_lot`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `lot`
