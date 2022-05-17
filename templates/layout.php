@@ -65,7 +65,7 @@
             {
                 ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?=$category["Category"]?></a>
+                    <a href="pages/all-lots.html"><?=$category["name"]?></a>
                 </li>
                 <?php
             }
