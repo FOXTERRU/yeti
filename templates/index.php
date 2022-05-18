@@ -6,7 +6,7 @@
             foreach ($arraycategory as $category)
             {
                 ?>
-                <li class="promo__item promo__item--<?=$category["name"]?>">
+                <li class="promo__item promo__item--<?=$category["eng_name"]?>">
                     <a class="promo__link" href="pages/all-lots.html"><?=$category["name"]?></a>
                 </li>
                 <?php
@@ -29,7 +29,7 @@
                     </div>
                     <div class="lot__info">
                         <span class="lot__category"><?=$goods["name"]?></span>
-                        <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$goods["lot_name"]?></a></h3>
+                        <h3 class="lot__title"><a class="text-link" href="lot.php?pages=<?=$goods["id_lot"]?>"><?=$goods["lot_name"]?></a></h3>
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
