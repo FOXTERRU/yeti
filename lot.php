@@ -2,7 +2,7 @@
 require_once ('functions.php');
 require_once "data.php";
 
-    $ID = $_GET['pages'];
+    $ID = intval($_GET['pages']);
 
     $connection = new mysqli('127.0.0.1','root','','yeti');
     $query = "Select * from category order by id_category";
@@ -20,25 +20,33 @@ require_once "data.php";
     $bets_result = $connection->query($query);
     $bets = $bets_result->fetch_all(1);
 
-    $data_main = ['category'=>$category, 'lot'=>$lot,'bets'=>$bets];
-
-    $page_content = include_template("lot.php", $data_main);
-
-    $layout_content = include_template('layout.php', [
-        'page_content' => $page_content,
-        'arraycategory'=>$arraycategory,
-        'arrayusers' =>$arrayusers,
-        'title' => $lot["lot_name"],
-        'user_name' => $user
-    ]);
-
-    if($lot["id_lot"] != $ID)
+    if(!empty($lot['id_lot']))
     {
-        header("Location: 404.php");
+        $data_main = ['category'=>$category, 'lot'=>$lot,'bets'=>$bets];
+
+        $page_content = include_template("lot.php", $data_main);
+
+        $layout_content = include_template('layout.php', [
+            'page_content' => $page_content,
+            'arraycategory'=>$arraycategory,
+            'arrayusers' =>$arrayusers,
+            'title' => $lot["lot_name"],
+            'user_name' => $user
+        ]);
+        print $layout_content;
+
     }
     else
     {
+        $page_content = include_template("404.php",['category' => $category]);
+
+        $layout_content = include_template('layout.php', [
+            'page_content' => $page_content,
+            'arraycategory'=>$arraycategory,
+            'arrayusers' =>$arrayusers,
+            'title' => $lot["lot_name"],
+            'user_name' => $user
+        ]);
         print $layout_content;
     }
-
 ?>

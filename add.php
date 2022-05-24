@@ -1,7 +1,21 @@
 <?php
 require_once ('functions.php');
 require_once ('data.php');
+if(empty($user))
+{
+    $page_content = include_template("403.php", array());
 
+    $layout_content = include_template('layout.php', [
+        'page_content' => $page_content,
+        'arraycategory'=>$arraycategory,
+        'arrayusers' =>$arrayusers,
+        'title' => 'Добавление лота',
+        'user_name' => $user
+    ]);
+    print($layout_content);
+}
+else
+{
 $connection = new mysqli('127.0.0.1', 'root', '', 'yeti');
 
 $pattern = '/^[ 0-9]+$/';
@@ -17,7 +31,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
     $lot_name = clear_data($_POST['lot_name']);
     $category = clear_data($_POST['category']);
     $description = clear_data($_POST['description']);
-    $image = clear_data('img/'.$_FILES['image']['name']);
+    $image = clear_data($_FILES['image']['name']);
     $initial_price = clear_data($_POST['initial_price']);
     $bid_step = clear_data($_POST['bid_step']);
     $completion_date = clear_data($_POST['completion_date']);
@@ -106,18 +120,17 @@ if($_SERVER['REQUEST_METHOD']=='POST')
         $query1 = "select id_category from category where name = '$category'";
 
         $query = "insert into lot (id_winner,id_user,id_category,creation_date,lot_name,description,image,initial_price,completion_date,bid_step) value (NULL,1,($query1),now(),'$lot_name','$description','$image',$initial_price,'$completion_date',$bid_step)";
+
         $category_result = $connection->query($query);
+
+        $query2 = "select id_lot from lot where lot_name ='".$lot_name."'";
+
+        $result2 = $connection->query($query2);
+
+        $ID = $result2->fetch_row()[0];
+
+        header("location:lot.php?pages=$ID");
     }
-
-    /*$query2 = "select id_lot from lot where lot_name = $lot_name";
-    $query2_result = mysql_query($query2);
-    $row = mysql_fetch_array($query2_result);
-
-    if(!empty($row))
-    {
-        $new_url = 'yeticave/lot.php?pages='.$row.'';
-        header('Location:'.$new_url);
-    }*/
 
     $data_main = ['arraycategory'=>$arraycategory,'err'=>$err,'message'=>$message,'form'=>$form];
 
@@ -147,5 +160,6 @@ else
     ]);
 
     print($layout_content);
+}
 }
 ?>
