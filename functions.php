@@ -1,6 +1,6 @@
 <?php
-$is_auth = rand(0, 1);
-$user_name = 'Дмитрий';
+
+
 
 /*$arraycategory = [
     ["Category"=>"Доски и лыжи","Image"=>"boards"],
@@ -43,22 +43,35 @@ function timer()
     {
         return $interval->format('%h:0%i');
     }
-    else 
+    else
     {
         return $interval->format('%h:%i');
     }
 }
-function include_template($name, $data) 
+function include_template($name, $data)
 {
+    $user = $_COOKIE['user'] ?? "";
+    $is_auth = isset($_COOKIE['user']);
     $name = 'templates/' . $name;
     $result = '';
     if (!file_exists($name)) {
         return $result;
     }
+    $data['is_auth'] = $is_auth;
+    $data['user'] = $user;
     ob_start();
     extract($data);
     require($name);
     $result = ob_get_clean();
     return $result;
+}
+
+function clear_data($val)
+{
+    $val = trim($val);
+    $val = stripslashes($val);
+    $val = strip_tags($val);
+    $val = htmlspecialchars($val);
+    return $val;
 }
 ?>

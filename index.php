@@ -8,9 +8,9 @@ $page_content = include_template('index.php', [
 $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'arraycategory'=>$arraycategory,
+    'arrayusers' =>$arrayusers,
     'title' => 'Главная страница',
-    'is_auth'=>$is_auth,
-    'user_name' => $user_name
+    'user_name' => $user
 ]);
 
 print($layout_content);

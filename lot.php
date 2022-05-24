@@ -27,9 +27,9 @@ require_once "data.php";
     $layout_content = include_template('layout.php', [
         'page_content' => $page_content,
         'arraycategory'=>$arraycategory,
+        'arrayusers' =>$arrayusers,
         'title' => $lot["lot_name"],
-        'is_auth'=>$is_auth,
-        'user_name' => $user_name
+        'user_name' => $user
     ]);
 
     if($lot["id_lot"] != $ID)
