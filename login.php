@@ -52,8 +52,9 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 
         if(empty($result))
         {
-            $err['pass'] = 'form__item--invalid';
-            $message['pass'] = '<span class="form__error">Вы ввели неправильный пароль</span>';
+            
+            $form = 'form--invalid';
+            $message['form'] = '<span class="form__error form__error--bottom">Вы ввели неправильную почту или пароль</span>';
             $flag = 1;
 
             $data_main = ['arraycategory' => $arraycategory, 'err' => $err, 'message' => $message, 'form' => $form,'user' => $user];
